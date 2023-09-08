@@ -3,161 +3,20 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="style.css" />
       <title>TODO</title>
-      <style>
-body {
-	background: #f9f9f9;
-	text-align: center;
-	font-family: Arial;
-	
-}
-#title{
-	font-size: 5em;
-	font-weight: 900;
-	margin: 0em;
-	background: -webkit-linear-gradient(0.01turn ,#0056B2, #66AFE1);
-  	-webkit-background-clip: text;
-  	-webkit-text-fill-color: transparent;
-
-}
-#sub_title{
-	font-size: 1em;
-	font-weight: 500;
-	margin: 0em;
-	color: #003058;
-}
-#list_node {
-  	font-size: 1.5em;
-  	display: flex;
-  	flex-direction: column;
-  	padding-left: 65px;
-  	padding-right: 10px;
-  	background: repeating-linear-gradient(#0000 0 calc(1.5em - 1px), #66afe1 0 1.5em) right bottom / 100% 100%, linear-gradient(red 0 0) 30px 0 / 2px 100% #fff;
-  	background-repeat: no-repeat;
-  	line-height: 1.5em;
-  	width: 30%;
-  	height: fit-content;
-  	margin: auto;
-	box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
-  	text-align: left;
-  	overflow: auto;
-  	hyphens: manual;
-  	white-space: pre-wrap;
-  	font-weight: 300;
-
-}
-#form{
-    display: inline-block;
-    margin: 1em;
-}
-#input_box{
-  	border-radius: 5px;
-  	font-size:24px;
-  	border: 1px solid #ccc;
-  	padding: 12px 10px;
-  	margin: 8px 0;
-}
-#input_box::placeholder {
-  font-weight: bold;
-  opacity: 0.7;
-  color: #949292;
-}
-.completed{
-	color: #c4c4c4;
-	text-decoration: line-through;
-}
-p{
-	display: list-item;
-	margin: 0px;
-	padding: 0px;
-}
-      </style>
    </head>
    <body>
-  <!-- © Tal Hadad. All rights reserved. Unauthorized copying prohibited. -->
-   <p id="title">TODO</p>
-   <p id="sub_title">Right click to delete, left to mark as completed.</p>
-   <div>
-   	<form id="form">
-  		<input id="input_box" type="text" name="item" autocomplete="off" placeholder="What next?"><br>
-	</form>
-   </div>
-  <div id="list">
-  </div>
-    <script>
-        const form = document.getElementById("form");
-        const input = document.getElementById("input_box");
-        const list = document.getElementById("list");
-        
-        loadItems();
-        
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            if(input.value !== ""){
-            	newItem();
-            	input.value = "";
-            }
-        });
-
-        function newItem() {
-            const div = document.createElement("div");
-            const newContent = document.createElement("p");
-            newContent.textContent = input.value;
-	    addEventListenersToDiv(div);
-            div.id = "list_node";
-            div.appendChild(newContent);
-            list.appendChild(div);
-            saveItems();
-        }
-
-        function saveItems() {
-            const items = [];
-            const nodeList = list.childNodes;
-
-            for (const node of nodeList) {
-                if (node.nodeType === 1) { 
-                    items.push({
-                        content: node.textContent,
-                        completed: node.classList.contains('completed')
-                    });
-                }
-            }
-
-            localStorage.setItem('todoItems', JSON.stringify(items));
-        }
-
-        function loadItems() {
-            const storedItems = localStorage.getItem('todoItems');
-
-            if (storedItems) {
-                const items = JSON.parse(storedItems);
-
-                for (const storedItem of items) {
-                    const div = document.createElement("div");
-                    const newContent = document.createElement("p");
-                    newContent.textContent = storedItem.content;
-                    div.appendChild(newContent);
-		    div.className = storedItem.completed ? "completed" : "";
-		    addEventListenersToDiv(div);
-                    div.id = "list_node";
-                    list.appendChild(div);
-                }
-            }
-        }
-function addEventListenersToDiv(div) {
-    div.addEventListener("contextmenu", function (e) {
-        e.preventDefault();
-        div.remove();
-        saveItems();
-    });
-
-    div.addEventListener("click", function (e) {
-        e.preventDefault();
-        div.classList.toggle('completed');
-        saveItems();
-    });
-}
-    </script>
+      <!-- © Tal Hadad. All rights reserved. Unauthorized copying prohibited. -->
+      <p id="title">TODO</p>
+      <p id="sub_title">Right click to delete, left to mark as completed.</p>
+      <div>
+         <form id="form">
+            <input id="input_box" type="text" name="item" autocomplete="off" placeholder="What next?"><br>
+         </form>
+      </div>
+      <div id="list">
+      </div>
+      <script src="script.js"></script>
    </body>
 </html>
-
